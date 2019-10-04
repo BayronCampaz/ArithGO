@@ -35,6 +35,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Geocoder geocoder;
     private TextView siteText;
     private Polygon libraryZone;
+    private boolean alreadyPlayed;
     private ArrayList<Polygon> reactiveZones;
 
     @Override
@@ -51,7 +52,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Manifest.permission.ACCESS_FINE_LOCATION,
         }, 11);
 
-        ArrayList<Polygon> reactiveZones = new ArrayList<Polygon>();
+         siteText = findViewById(R.id.site_tv);
+         reactiveZones = new ArrayList<Polygon>();
+         alreadyPlayed = false;
 
 
     }
@@ -91,6 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 18));
 
         boolean isInLibrary = PolyUtil.containsLocation(pos, libraryZone.getPoints(), true);
+        boolean inAnyReactiveZone = false;
 
         if(isInLibrary){
             Intent i = new Intent(MapsActivity.this, ExchangeActivity.class);
@@ -98,14 +102,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }else {
 
-            for (Polygon polygon : reactiveZones
+            for (Polygon zone : reactiveZones
                  ) {
-                boolean isInZone = PolyUtil.containsLocation(pos, libraryZone.getPoints(), true);
+                boolean isInZone = PolyUtil.containsLocation(pos, zone.getPoints(), true);
                 if(isInZone){
-                    Intent i = new Intent(MapsActivity.this, QuestionActivity.class);
-                    startActivity(i);
+                    inAnyReactiveZone = true;
+                    if(!alreadyPlayed){
+                        Intent i = new Intent(MapsActivity.this, QuestionActivity.class);
+                        startActivity(i);
+                    }else{
+                        siteText.setText("Ya jugaste aqui, ve a otra zona");
+                    }
+
                 }
             }
+        }
+        if(!inAnyReactiveZone){
+            alreadyPlayed = false;
         }
     }
 
@@ -131,14 +144,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new LatLng(3.341667, -76.530095),
                 new LatLng(3.341662, -76.529783),
                 new LatLng(3.341946, -76.529778)
-        ).fillColor(R.color.colorPrimary);
+        ).fillColor(R.color.transparentGreen);
 
         PolygonOptions poBuildingD = new PolygonOptions().add(
                 new LatLng(3.341051, -76.530481),
                 new LatLng(3.340826, -76.530492),
                 new LatLng(3.340784, -76.529934),
                 new LatLng(3.341003, -76.529934)
-        ).fillColor(R.color.colorPrimary);
+        ).fillColor(R.color.transparentGreen);
 
         PolygonOptions poBuildingL = new PolygonOptions().add(
                 new LatLng(3.342524, -76.528963),
@@ -146,7 +159,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new LatLng(3.342637, -76.528212),
                 new LatLng(3.341726, -76.528260),
                 new LatLng(3.341748, -76.529032)
-        ).fillColor(R.color.colorPrimary);
+        ).fillColor(R.color.transparentGreen);
 
 
         libraryZone = mMap.addPolygon(poLibrary);
