@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -31,7 +32,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker locationUser;
     private Geocoder geocoder;
     private TextView siteText;
-    private ArrayList<Polygon> areas;
+    private ArrayList<Polygon> reactiveZones;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
         }, 11);
+
+        ArrayList<Polygon> reactiveZones = new ArrayList<Polygon>();
+
 
     }
 
@@ -66,6 +70,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         geocoder = new Geocoder(this, Locale.getDefault());
         // Add a marker in Sydney and move the camera
+
+
 
         LatLng icesi = new LatLng(3.342262, -76.529901);
         locationUser = mMap.addMarker(new MarkerOptions().position(icesi).title("Usted"));
@@ -94,6 +100,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onProviderDisabled(String s) {
+
+    }
+
+    public void initializePolygons(){
+
+        PolygonOptions poLibrary = new PolygonOptions().add(
+                new LatLng(3.341962, -76.530078),
+                new LatLng(3.341667, -76.530095),
+                new LatLng(3.341662, -76.529783),
+                new LatLng(3.341946, -76.529778)
+        ).fillColor(R.color.colorPrimary);
+
+        PolygonOptions poBuildingD = new PolygonOptions().add(
+                new LatLng(3.341051, -76.530481),
+                new LatLng(3.340826, -76.530492),
+                new LatLng(3.340784, -76.529934),
+                new LatLng(3.341003, -76.529934)
+        ).fillColor(R.color.colorPrimary);
+
+        PolygonOptions poBuildingL = new PolygonOptions().add(
+                new LatLng(3.342524, -76.528963),
+                new LatLng(3.342760, -76.528389),
+                new LatLng(3.342637, -76.528212),
+                new LatLng(3.341726, -76.528260),
+                new LatLng(3.341748, -76.529032)
+        ).fillColor(R.color.colorPrimary);
+
+
+        Polygon polygonBuildingD = mMap.addPolygon();
 
     }
 }
