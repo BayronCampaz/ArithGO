@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.maps.android.PolyUtil;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -32,6 +34,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker locationUser;
     private Geocoder geocoder;
     private TextView siteText;
+    private Polygon libraryZone;
     private ArrayList<Polygon> reactiveZones;
 
     @Override
@@ -71,7 +74,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         geocoder = new Geocoder(this, Locale.getDefault());
         // Add a marker in Sydney and move the camera
 
-
+        initializePolygons();
 
         LatLng icesi = new LatLng(3.342262, -76.529901);
         locationUser = mMap.addMarker(new MarkerOptions().position(icesi).title("Usted"));
@@ -86,6 +89,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
         locationUser.setPosition(pos);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 18));
+
+        boolean isInLibrary = PolyUtil.containsLocation(pos, libraryZone.getPoints(), true);
+
+        if(isInLibrary){
+            Intent i = new Intent(MapsActivity.this, ExchangeActivity.class);
+            startActivity(i);
+
+        }else {
+
+            for (Polygon polygon : reactiveZones
+                 ) {
+                boolean isInZone = PolyUtil.containsLocation(pos, libraryZone.getPoints(), true);
+                if(isInZone){
+                    Intent i = new Intent(MapsActivity.this, QuestionActivity.class);
+                    startActivity(i);
+                }
+            }
+        }
     }
 
     @Override
@@ -128,7 +149,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ).fillColor(R.color.colorPrimary);
 
 
-        Polygon polygonBuildingD = mMap.addPolygon();
+        libraryZone = mMap.addPolygon(poLibrary);
+
+        Polygon polygonD = mMap.addPolygon(poBuildingD);
+        reactiveZones.add(polygonD);
+
+        Polygon polygonL = mMap.addPolygon(poBuildingL);
+        reactiveZones.add(polygonL);
 
     }
 }
