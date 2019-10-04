@@ -1,19 +1,37 @@
 package edu.icesi.arithgo;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import java.util.ArrayList;
+import java.util.Locale;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
+    private Marker locationUser;
+    private Geocoder geocoder;
+    private TextView siteText;
+    private ArrayList<Polygon> areas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +41,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+        }, 11);
+
     }
 
 
@@ -36,12 +60,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      */
     @Override
+    @SuppressLint("MissingPermission")
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        geocoder = new Geocoder(this, Locale.getDefault());
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        LatLng icesi = new LatLng(3.342262, -76.529901);
+        locationUser = mMap.addMarker(new MarkerOptions().position(icesi).title("Usted"));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(icesi, 18));
+
+        LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER,  1000, 0, this);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
+        locationUser.setPosition(pos);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 18));
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
     }
 }
