@@ -12,6 +12,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,15 +29,19 @@ import com.google.maps.android.PolyUtil;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import edu.icesi.arithgo.model.data.CRUDScore;
+import edu.icesi.arithgo.model.entity.Score;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
     private Marker locationUser;
-    private Geocoder geocoder;
     private TextView siteText;
     private Polygon libraryZone;
     private boolean alreadyPlayed;
     private ArrayList<Polygon> reactiveZones;
+    private Score score;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +57,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Manifest.permission.ACCESS_FINE_LOCATION,
         }, 11);
 
-         siteText = findViewById(R.id.site_tv);
+        // siteText = findViewById(R.id.site_tv);
          reactiveZones = new ArrayList<Polygon>();
          alreadyPlayed = false;
+         score = CRUDScore.getScore();
+         if(score==null){
+             score = new Score("1", 0);
+             CRUDScore.insertScore(score);
+         }
 
 
     }
@@ -74,7 +84,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        geocoder = new Geocoder(this, Locale.getDefault());
         // Add a marker in Sydney and move the camera
 
         initializePolygons();
@@ -96,22 +105,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         boolean isInLibrary = PolyUtil.containsLocation(pos, libraryZone.getPoints(), true);
         boolean inAnyReactiveZone = false;
 
-        if(isInLibrary){
-            Intent i = new Intent(MapsActivity.this, ExchangeActivity.class);
-            startActivity(i);
+        if(isInLibrary ){
+
 
         }else {
 
-            for (Polygon zone : reactiveZones
-                 ) {
+            for (int j = 0; j < reactiveZones.size() && !inAnyReactiveZone; j++) {
+                Polygon zone = reactiveZones.get(j);
                 boolean isInZone = PolyUtil.containsLocation(pos, zone.getPoints(), true);
                 if(isInZone){
                     inAnyReactiveZone = true;
                     if(!alreadyPlayed){
+                        alreadyPlayed = true;
                         Intent i = new Intent(MapsActivity.this, QuestionActivity.class);
-                        startActivity(i);
+                        i.putExtra("points", score.getPoints());
+                        startActivityForResult(i, 11);
                     }else{
-                        siteText.setText("Ya jugaste aqui, ve a otra zona");
+                     //   siteText.setText("Ya jugaste aqui, ve a otra zona");
                     }
 
                 }
@@ -119,6 +129,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         if(!inAnyReactiveZone){
             alreadyPlayed = false;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 11 && resultCode == RESULT_OK){
+            int point = data.getExtras().getInt("point");
+            score.setPoints(score.getPoints()+point);
+            CRUDScore.updatePoints(score);
+            Toast.makeText(this, point+"", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -144,7 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new LatLng(3.341667, -76.530095),
                 new LatLng(3.341662, -76.529783),
                 new LatLng(3.341946, -76.529778)
-        ).fillColor(R.color.transparentGreen);
+        ).fillColor(R.color.colorAccent);
 
         PolygonOptions poBuildingD = new PolygonOptions().add(
                 new LatLng(3.341051, -76.530481),
@@ -162,6 +182,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ).fillColor(R.color.transparentGreen);
 
 
+        PolygonOptions poTODELETE = new PolygonOptions().add(
+                new LatLng(3.505659,-76.307154),
+                new LatLng(3.505152,-76.296065),
+                new LatLng(3.500004,-76.296171),
+                new LatLng(3.500502,-76.305273)
+        ).fillColor(R.color.transparentGreen);
+
+
+
         libraryZone = mMap.addPolygon(poLibrary);
 
         Polygon polygonD = mMap.addPolygon(poBuildingD);
@@ -169,6 +198,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Polygon polygonL = mMap.addPolygon(poBuildingL);
         reactiveZones.add(polygonL);
+
+        Polygon tODELETE = mMap.addPolygon(poTODELETE);
+        reactiveZones.add(tODELETE);
 
     }
 }

@@ -12,7 +12,7 @@
     android:layout_height="match_parent"
     tools:context=".MapsActivity" />
 
-    <TextView
+    <!--<TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Bienvenido a ArithGO"
@@ -23,6 +23,16 @@
         android:background="@drawable/border_view"
         android:id="@+id/site_tv"
 
-        />
+        /> -->
+
+    <ImageButton
+        android:layout_height="100dp"
+        android:layout_width="100dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/exchange_btn"
+        android:backgroundTint="@color/transparentGreen"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp" />
+
 
 </RelativeLayout>
