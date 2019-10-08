@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import edu.icesi.arithgo.model.QuestionGenerator;
+import edu.icesi.arithgo.model.data.CRUDScore;
+import edu.icesi.arithgo.model.entity.Score;
 
 public class QuestionActivity extends AppCompatActivity {
 
@@ -63,11 +65,16 @@ public class QuestionActivity extends AppCompatActivity {
                        }
                         toast.show();
                        //FALTA LO DE LOS PUNTOS
-
-                        Intent i = new Intent();
-                        i.putExtra("point", winOrLost);
-                        setResult(RESULT_OK, i);
-                        finish();
+                        Score score = CRUDScore.getScore();
+                        if(score==null){
+                            score = new Score("1", 0);
+                            CRUDScore.insertScore(score);
+                        }
+                        score.setPoints(score.getPoints()+winOrLost);
+                        if(score.getPoints()< 0){
+                            score.setPoints(0);
+                        }
+                        CRUDScore.updatePoints(score);
                     }
                 }else{
                     toast = Toast.makeText(QuestionActivity.this, "Marque si esta seguro", Toast.LENGTH_LONG);

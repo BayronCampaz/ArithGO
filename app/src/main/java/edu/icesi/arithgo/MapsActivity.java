@@ -11,6 +11,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Polygon libraryZone;
     private boolean alreadyPlayed;
     private ArrayList<Polygon> reactiveZones;
-    private Score score;
+    private Button exchangeBtn;
 
 
     @Override
@@ -60,11 +62,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // siteText = findViewById(R.id.site_tv);
          reactiveZones = new ArrayList<Polygon>();
          alreadyPlayed = false;
-         score = CRUDScore.getScore();
-         if(score==null){
-             score = new Score("1", 0);
-             CRUDScore.insertScore(score);
-         }
+         exchangeBtn = findViewById(R.id.exchange_btn);
+
+
+
+         exchangeBtn.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 Intent i = new Intent(MapsActivity.this, ExchangeActivity.class);
+                 startActivity(i);
+             }
+         });
 
 
     }
@@ -106,10 +114,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         boolean inAnyReactiveZone = false;
 
         if(isInLibrary ){
-
+            exchangeBtn.setVisibility(View.VISIBLE);
 
         }else {
-
+            exchangeBtn.setVisibility(View.GONE);
             for (int j = 0; j < reactiveZones.size() && !inAnyReactiveZone; j++) {
                 Polygon zone = reactiveZones.get(j);
                 boolean isInZone = PolyUtil.containsLocation(pos, zone.getPoints(), true);
@@ -118,8 +126,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     if(!alreadyPlayed){
                         alreadyPlayed = true;
                         Intent i = new Intent(MapsActivity.this, QuestionActivity.class);
-                        i.putExtra("points", score.getPoints());
-                        startActivityForResult(i, 11);
+                        startActivity(i);
                     }else{
                      //   siteText.setText("Ya jugaste aqui, ve a otra zona");
                     }
@@ -129,16 +136,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         if(!inAnyReactiveZone){
             alreadyPlayed = false;
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 11 && resultCode == RESULT_OK){
-            int point = data.getExtras().getInt("point");
-            score.setPoints(score.getPoints()+point);
-            CRUDScore.updatePoints(score);
-            Toast.makeText(this, point+"", Toast.LENGTH_LONG).show();
         }
     }
 

@@ -13,11 +13,11 @@ public class CRUDScore {
         DBDriver driver = DBDriver.getInstance(ArithGOApp.getAppContext());
         SQLiteDatabase db = driver.getWritableDatabase();
 
-        String sql = "INSERT INTO $TABLE($ID,$POINTS) VALUES('$VID','$VPOINTS')";
+        String sql = "INSERT INTO $TABLE($ID,$POINTS) VALUES('$VID',$VPOINTS)";
         sql = sql
                 .replace("$TABLE", DBDriver.TABLE_SCORE)
                 .replace("$ID", DBDriver.SCORE_ID)
-                .replace("$NAME", DBDriver.SCORE_POINTS)
+                .replace("$POINTS", DBDriver.SCORE_POINTS)
                 .replace("$VID", score.getId())
                 .replace("$VPOINTS", ""+score.getPoints());
 
@@ -29,7 +29,7 @@ public class CRUDScore {
     public static void updatePoints(Score score) {
         DBDriver driver = DBDriver.getInstance(ArithGOApp.getAppContext());
         SQLiteDatabase db = driver.getWritableDatabase();
-        String sql = "UPDATE $TABLE SET $POINTS=$VPOINTS WHERE $ID = '$FID'";
+        String sql = "UPDATE $TABLE SET $POINTS = $VPOINTS WHERE $ID = '$FID'";
         sql = sql
                 .replace("$TABLE", DBDriver.TABLE_SCORE)
                 .replace("$POINTS", DBDriver.SCORE_POINTS)
@@ -51,7 +51,7 @@ public class CRUDScore {
 
         if(cursor.moveToFirst()){
                 String id = cursor.getString(  cursor.getColumnIndex(DBDriver.SCORE_ID)  );
-                int points = cursor.getInt(cursor.getColumnIndex(DBDriver.SCORE_POINTS);
+                int points = cursor.getInt(cursor.getColumnIndex(DBDriver.SCORE_POINTS));
                 score = new Score(id,points);
         }
 
