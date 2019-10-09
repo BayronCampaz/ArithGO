@@ -12,30 +12,34 @@
     android:layout_height="match_parent"
     tools:context=".MapsActivity" />
 
-    <!--<TextView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Bienvenido a ArithGO"
         android:textSize="20sp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:background="@drawable/border_view"
         android:id="@+id/site_tv"
+        android:visibility="gone"
+        />
 
-        /> -->
+
 
     <Button
         android:id="@+id/exchange_btn"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:layout_width="match_parent"
         android:layout_centerInParent="true"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/blue_black"
         android:textColor="@color/white"
+        android:text="Canjear"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
         android:layout_marginHorizontal="50dp"
-        android:visibility="gone"/>
+
+       />
 
 
 </RelativeLayout>

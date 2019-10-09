@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class ExchangeActivity extends AppCompatActivity {
         pointsTv = findViewById(R.id.points_tv);
         productList = findViewById(R.id.products_list);
         products = new ArrayList<Product>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, products);
         productList.setAdapter(adapter);
 
         initializeProducts();
@@ -51,23 +52,38 @@ public class ExchangeActivity extends AppCompatActivity {
 
         productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, final int pos, long l) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ExchangeActivity.this)
                         .setTitle("Canjear")
                         .setMessage("¿Desea canjear este articulo?")
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                int cost = products.get(i).getValue();
+                                int cost = products.get(pos).getValue();
                                 if(cost < score.getPoints()){
                                     score = new Score("1", score.getPoints() - cost);
                                     CRUDScore.updatePoints(score);
-                                    dialogInterface.dismiss();
+
+                                }else{
+                                    Toast toast = Toast.makeText(getApplicationContext(), "No tienes suficientes puntos", Toast.LENGTH_SHORT);
+                                    toast.show();
                                 }
+                                dialogInterface.dismiss();
+
+
                             }
+                        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+
                         });
                 builder.show();
+
             }
+
+
         });
 
 
@@ -75,11 +91,11 @@ public class ExchangeActivity extends AppCompatActivity {
 
     public void initializeProducts(){
 
-        Product lapiceroIcesi = new Product("Lapicero Icesi", 20);
-        Product cuaderno = new Product("Cuaderno", 30);
-        Product libretaIcesi = new Product("Libreta Icesi", 40);
-        Product camisetaIcesi = new Product("Camiseta Icesi", 80);
-        Product sacoIcesi = new Product("Saco Icesi", 100);
+        Product lapiceroIcesi = new Product("Lapicero Icesi",20);
+        Product cuaderno =      new Product("Cuaderno      ",30);
+        Product libretaIcesi =  new Product("Libreta Icesi ",40);
+        Product camisetaIcesi = new Product("Camiseta Icesi",80);
+        Product sacoIcesi =     new Product("Saco Icesi   ",100);
         products.add(lapiceroIcesi);
         products.add(cuaderno);
         products.add(libretaIcesi);

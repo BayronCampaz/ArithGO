@@ -57,10 +57,10 @@ public class QuestionActivity extends AppCompatActivity {
                        int winOrLost = 0;
 
                        if(value==questionGenerator.getResult()){
-                         toast =   Toast.makeText(QuestionActivity.this, "Respuesta correcta GANASTE 1 punto", Toast.LENGTH_LONG);
+                         toast =   Toast.makeText(getApplicationContext(), "Respuesta correcta GANASTE 1 punto", Toast.LENGTH_LONG);
                            winOrLost = 1;
                        }else{
-                          toast =  Toast.makeText(QuestionActivity.this, "Respuesta incorrecta PERDISTE 1 punto", Toast.LENGTH_LONG);
+                          toast =  Toast.makeText(getApplicationContext(), "Respuesta incorrecta PERDISTE 1 punto", Toast.LENGTH_LONG);
                            winOrLost = -1;
                        }
                         toast.show();
@@ -75,6 +75,9 @@ public class QuestionActivity extends AppCompatActivity {
                             score.setPoints(0);
                         }
                         CRUDScore.updatePoints(score);
+
+                        Intent i = new Intent(QuestionActivity.this, MapsActivity.class);
+                        startActivity(i);
                     }
                 }else{
                     toast = Toast.makeText(QuestionActivity.this, "Marque si esta seguro", Toast.LENGTH_LONG);
