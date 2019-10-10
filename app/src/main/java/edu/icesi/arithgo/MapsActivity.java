@@ -164,14 +164,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new LatLng(3.341667, -76.530095),
                 new LatLng(3.341662, -76.529783),
                 new LatLng(3.341946, -76.529778)
-        ).fillColor(R.color.transparentGreen);
+        );
 
         PolygonOptions poBuildingD = new PolygonOptions().add(
                 new LatLng(3.341051, -76.530481),
                 new LatLng(3.340826, -76.530492),
                 new LatLng(3.340784, -76.529934),
                 new LatLng(3.341003, -76.529934)
-        ).fillColor(R.color.transparentGreen);
+        );
 
         PolygonOptions poBuildingG = new PolygonOptions().add(
                 new LatLng(3.342524, -76.528963),
@@ -179,29 +179,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new LatLng(3.342637, -76.528212),
                 new LatLng(3.341726, -76.528260),
                 new LatLng(3.341748, -76.529032)
-        ).fillColor(R.color.colorAccent);
+        );
 
-
-        PolygonOptions poTODELETE = new PolygonOptions().add(
+      /*  PolygonOptions poTODELETE = new PolygonOptions().add(
                 new LatLng(3.505659,-76.307154),
                 new LatLng(3.505152,-76.296065),
                 new LatLng(3.500004,-76.296171),
                 new LatLng(3.500502,-76.305273)
-        ).fillColor(R.color.colorAccent);
+        );*/
 
 
 
 
         libraryZone = mMap.addPolygon(poLibrary);
+        libraryZone.setFillColor(R.color.green);
 
         Polygon polygonD = mMap.addPolygon(poBuildingD);
+
         reactiveZones.add(polygonD);
 
         Polygon polygonG = mMap.addPolygon(poBuildingG);
         reactiveZones.add(polygonG);
 
-        Polygon tODELETE = mMap.addPolygon(poTODELETE);
-        reactiveZones.add(tODELETE);
     }
 
     @Override

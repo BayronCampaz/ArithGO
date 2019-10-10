@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:textSize="30dp"
         android:layout_margin="10sp"
-        android:text="Tu puntaje es de :"
+        android:text="@string/tu_puntaje"
         android:gravity="center"
         android:layout_centerInParent="true"
 
@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="60"
-        android:textSize="120dp"
+        android:textColor="@color/blue_black"
+        android:textSize="100dp"
         android:layout_centerInParent="true"
         android:id="@+id/points_tv"/>
 
@@ -31,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30dp"
-        android:text="puntos"
+        android:text="@string/puntos"
         android:gravity="center"
         android:layout_centerInParent="true"
         android:layout_marginBottom="20dp"
@@ -41,7 +42,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/products_list"
-        android:padding="10dp">
+        android:padding="10dp"
+        >
 
     </ListView>
 

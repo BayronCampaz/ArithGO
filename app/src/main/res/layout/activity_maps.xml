@@ -34,10 +34,11 @@
         android:layout_centerInParent="true"
         android:background="@color/blue_black"
         android:textColor="@color/white"
-        android:text="Canjear"
+        android:text="@string/canjear"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
         android:layout_marginHorizontal="50dp"
+        android:visibility="gone"
 
        />
 

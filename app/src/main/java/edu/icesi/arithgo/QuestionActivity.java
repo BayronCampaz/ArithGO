@@ -18,8 +18,6 @@ import edu.icesi.arithgo.model.entity.Score;
 
 public class QuestionActivity extends AppCompatActivity {
 
-    public final static int TIME_TOAST = 5000;
-
     private TextView questionTv;
     private EditText answerEt;
     private Button acceptBtn;
@@ -54,7 +52,7 @@ public class QuestionActivity extends AppCompatActivity {
                     }else{
                        int value =  Integer.parseInt(answer);
 
-                       int winOrLost = 0;
+                       int winOrLost;
 
                        if(value==questionGenerator.getResult()){
                          toast =   Toast.makeText(getApplicationContext(), "Respuesta correcta GANASTE 1 punto", Toast.LENGTH_LONG);

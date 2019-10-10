@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">ArithGO</string>
     <string name="title_activity_maps">Map</string>
+    <string name="tu_puntaje">Tu puntaje es de:</string>
+    <string name="puntos">puntos </string>
+    <string name="canjear">Canjear</string>
 </resources>
