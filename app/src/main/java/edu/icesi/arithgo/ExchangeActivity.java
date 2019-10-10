@@ -92,8 +92,6 @@ public class ExchangeActivity extends AppCompatActivity {
 
     public void initializeProducts(){
 
-        Product test = new Product("test",2);
-        products.add(test);
         Product lapiceroIcesi = new Product("Lapicero Icesi",20);
         Product cuaderno =      new Product("Cuaderno      ",30);
         Product libretaIcesi =  new Product("Libreta Icesi ",40);
