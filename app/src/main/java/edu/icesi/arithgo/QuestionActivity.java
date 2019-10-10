@@ -70,14 +70,16 @@ public class QuestionActivity extends AppCompatActivity {
                             score = new Score("1", 0);
                             CRUDScore.insertScore(score);
                         }
-                        score.setPoints(score.getPoints()+winOrLost);
+                        score.setPoints(score.getPoints()+ winOrLost);
                         if(score.getPoints()< 0){
                             score.setPoints(0);
                         }
                         CRUDScore.updatePoints(score);
-
-                        Intent i = new Intent(QuestionActivity.this, MapsActivity.class);
-                        startActivity(i);
+                        Log.e("myTag", "EL VALOR DE SCORE = " + score.getPoints());
+                        Intent i = new Intent();
+                        i.putExtra("resultado", "Registro exitoso!");
+                        setResult(RESULT_OK, i);
+                        finish();
                     }
                 }else{
                     toast = Toast.makeText(QuestionActivity.this, "Marque si esta seguro", Toast.LENGTH_LONG);

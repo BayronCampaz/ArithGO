@@ -33,7 +33,7 @@ public class CRUDScore {
         sql = sql
                 .replace("$TABLE", DBDriver.TABLE_SCORE)
                 .replace("$POINTS", DBDriver.SCORE_POINTS)
-                .replace("$POINTS", ""+score.getPoints())
+                .replace("$VPOINTS", ""+score.getPoints())
                 .replace("$ID",DBDriver.SCORE_ID)
                 .replace("$FID",score.getId());
         db.execSQL(sql);
@@ -46,7 +46,7 @@ public class CRUDScore {
 
         Score score= null;
 
-        String sql = "SELECT * FROM "+DBDriver.TABLE_SCORE+ " WHERE ID = 1";
+        String sql = "SELECT * FROM "+DBDriver.TABLE_SCORE+ " WHERE ID = '1'";
         Cursor cursor = db.rawQuery(sql, null);
 
         if(cursor.moveToFirst()){

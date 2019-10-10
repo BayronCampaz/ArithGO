@@ -63,9 +63,10 @@ public class ExchangeActivity extends AppCompatActivity {
                                 if(cost < score.getPoints()){
                                     score = new Score("1", score.getPoints() - cost);
                                     CRUDScore.updatePoints(score);
+                                    pointsTv.setText("" + score.getPoints());
 
                                 }else{
-                                    Toast toast = Toast.makeText(getApplicationContext(), "No tienes suficientes puntos", Toast.LENGTH_SHORT);
+                                    Toast toast = Toast.makeText(getApplicationContext(), "No tienes suficientes puntos", Toast.LENGTH_LONG);
                                     toast.show();
                                 }
                                 dialogInterface.dismiss();
@@ -91,6 +92,8 @@ public class ExchangeActivity extends AppCompatActivity {
 
     public void initializeProducts(){
 
+        Product test = new Product("test",2);
+        products.add(test);
         Product lapiceroIcesi = new Product("Lapicero Icesi",20);
         Product cuaderno =      new Product("Cuaderno      ",30);
         Product libretaIcesi =  new Product("Libreta Icesi ",40);

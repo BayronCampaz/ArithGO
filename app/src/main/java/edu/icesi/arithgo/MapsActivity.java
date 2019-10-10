@@ -59,7 +59,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Manifest.permission.ACCESS_FINE_LOCATION,
         }, 11);
 
-        // siteText = findViewById(R.id.site_tv);
          reactiveZones = new ArrayList<Polygon>();
          alreadyPlayed = false;
          exchangeBtn = findViewById(R.id.exchange_btn);
@@ -128,7 +127,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     if(!alreadyPlayed){
                         alreadyPlayed = true;
                         Intent i = new Intent(MapsActivity.this, QuestionActivity.class);
-                        startActivity(i);
+                        startActivityForResult(i,11);
                     }else{
                         siteText.setVisibility(View.VISIBLE);
                         exchangeBtn.setVisibility(View.GONE);
@@ -203,6 +202,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Polygon tODELETE = mMap.addPolygon(poTODELETE);
         reactiveZones.add(tODELETE);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 11 && resultCode == RESULT_OK){
+            String resultado = data.getExtras().getString("resultado");
+            alreadyPlayed=true;
+        }
     }
 }

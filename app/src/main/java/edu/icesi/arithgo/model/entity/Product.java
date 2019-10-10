@@ -34,6 +34,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return name + "   - " + value +  " puntos" + "     - CANJEAR";
+        return name + "    " + value +  " puntos" + "         CANJEAR";
     }
 }
