@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/name_product_tv"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:text="Saco icesi"
+        android:textSize="20sp"
+        android:textColor="@color/blue_black"
+        android:layout_margin="10dp"
+        android:gravity="center|left">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/points_products_tv"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:text="60 puntos"
+        android:textSize="20sp"
+        android:textColor="@color/blue_black"
+        android:layout_margin="10dp"
+        >
+
+    </TextView>
+
+    <ImageButton
+        android:id="@+id/exchange_products"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/exchange_btn"
+        android:backgroundTint="@color/colorAccent">
+
+    </ImageButton>
+
+</LinearLayout>

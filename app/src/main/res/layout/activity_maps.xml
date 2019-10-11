@@ -34,13 +34,28 @@
         android:layout_centerInParent="true"
         android:background="@color/blue_black"
         android:textColor="@color/white"
-        android:text="@string/canjear"
+        android:text="@string/exchange"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
         android:layout_marginHorizontal="50dp"
         android:visibility="gone"
 
        />
+
+    <Button
+        android:id="@+id/question_btn"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white"
+        android:text="@string/answer_question"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginHorizontal="50dp"
+        android:visibility="gone"
+
+        />
 
 
 </RelativeLayout>

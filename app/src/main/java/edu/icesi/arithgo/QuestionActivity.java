@@ -22,7 +22,7 @@ public class QuestionActivity extends AppCompatActivity {
     private EditText answerEt;
     private Button acceptBtn;
     private CheckBox sureCb;
-    QuestionGenerator questionGenerator;
+    private QuestionGenerator questionGenerator;
 
 
     @Override
@@ -55,14 +55,15 @@ public class QuestionActivity extends AppCompatActivity {
                        int winOrLost;
 
                        if(value==questionGenerator.getResult()){
-                         toast =   Toast.makeText(getApplicationContext(), "Respuesta correcta GANASTE 1 punto", Toast.LENGTH_LONG);
                            winOrLost = 1;
+                           toast =   Toast.makeText(getApplicationContext(), "Respuesta correcta GANASTE 1 punto", Toast.LENGTH_LONG);
                        }else{
-                          toast =  Toast.makeText(getApplicationContext(), "Respuesta incorrecta PERDISTE 1 punto", Toast.LENGTH_LONG);
                            winOrLost = -1;
+                           toast =  Toast.makeText(getApplicationContext(), "Respuesta incorrecta PERDISTE 1 punto", Toast.LENGTH_LONG);
                        }
                         toast.show();
-                       //FALTA LO DE LOS PUNTOS
+
+
                         Score score = CRUDScore.getScore();
                         if(score==null){
                             score = new Score("1", 0);
@@ -73,10 +74,7 @@ public class QuestionActivity extends AppCompatActivity {
                             score.setPoints(0);
                         }
                         CRUDScore.updatePoints(score);
-                        Log.e("myTag", "EL VALOR DE SCORE = " + score.getPoints());
-                        Intent i = new Intent();
-                        i.putExtra("resultado", "Registro exitoso!");
-                        setResult(RESULT_OK, i);
+
                         finish();
                     }
                 }else{

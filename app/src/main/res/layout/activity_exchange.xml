@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:textSize="30dp"
         android:layout_margin="10sp"
-        android:text="@string/tu_puntaje"
+        android:text="@string/your_score"
         android:gravity="center"
         android:layout_centerInParent="true"
 
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30dp"
-        android:text="@string/puntos"
+        android:text="@string/points"
         android:gravity="center"
         android:layout_centerInParent="true"
         android:layout_marginBottom="20dp"

@@ -38,11 +38,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private Marker locationUser;
-    private TextView siteText;
     private Polygon libraryZone;
-    private boolean alreadyPlayed;
     private ArrayList<Polygon> reactiveZones;
     private Button exchangeBtn;
+    private Button questionBtn;
 
 
     @Override
@@ -59,10 +58,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Manifest.permission.ACCESS_FINE_LOCATION,
         }, 11);
 
-         reactiveZones = new ArrayList<Polygon>();
-         alreadyPlayed = false;
+         reactiveZones = new ArrayList<>();
          exchangeBtn = findViewById(R.id.exchange_btn);
-         siteText = findViewById(R.id.site_tv);
+         questionBtn = findViewById(R.id.question_btn);
 
 
 
@@ -74,6 +72,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
              }
          });
 
+        questionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MapsActivity.this, QuestionActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 
@@ -106,6 +111,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
+
         LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
         locationUser.setPosition(pos);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 18));
@@ -114,8 +120,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         boolean inAnyReactiveZone = false;
 
         if(isInLibrary ){
+            questionBtn.setVisibility(View.GONE);
             exchangeBtn.setVisibility(View.VISIBLE);
-            siteText.setVisibility(View.GONE);
 
         }else {
             exchangeBtn.setVisibility(View.GONE);
@@ -124,21 +130,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 boolean isInZone = PolyUtil.containsLocation(pos, zone.getPoints(), true);
                 if(isInZone){
                     inAnyReactiveZone = true;
-                    if(!alreadyPlayed){
-                        alreadyPlayed = true;
-                        Intent i = new Intent(MapsActivity.this, QuestionActivity.class);
-                        startActivityForResult(i,11);
-                    }else{
-                        siteText.setVisibility(View.VISIBLE);
-                        exchangeBtn.setVisibility(View.GONE);
-                        siteText.setText("Ya jugaste aqui, ve a otra zona");
-                    }
-
+                    questionBtn.setVisibility(View.VISIBLE);
                 }
             }
-        }
-        if(!inAnyReactiveZone){
-            alreadyPlayed = false;
         }
     }
 
@@ -195,7 +189,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         libraryZone.setFillColor(R.color.green);
 
         Polygon polygonD = mMap.addPolygon(poBuildingD);
-
         reactiveZones.add(polygonD);
 
         Polygon polygonG = mMap.addPolygon(poBuildingG);
@@ -203,11 +196,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 11 && resultCode == RESULT_OK){
-            String resultado = data.getExtras().getString("resultado");
-            alreadyPlayed=true;
-        }
-    }
 }
